@@ -7,7 +7,27 @@ import psycopg2, psycopg2.extensions, psycopg2.extras, ast, time, utils, httplib
 from collections import defaultdict
 from twython import TwythonStreamer
 import twython.exceptions
+import logging
+import sys
+import threading
 
+logger = logging.getLogger('random-sample.log')
+logger.setLevel(logging.INFO)
+
+fh = logging.FileHandler('scraper-log.log')
+fh.setLevel(logging.WARNING)
+
+ch = logging.StreamHandler()
+ch.setLevel(logging.WARNING)
+
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+fh.setFormatter(formatter)
+ch.setFormatter(formatter)
+
+logger.addHandler(fh)
+logger.addHandler(ch)
+
+logger.info('hi')
 config = ConfigParser.ConfigParser()
 config.read('config.txt')
 
@@ -24,61 +44,73 @@ class MyStreamer(TwythonStreamer):
     oauth_keys = {}
 
     # c = consumer, at = access_token
-    def __init__(self, oauth_keys, psql_conn):
+    def __init__(self, oauth_keys, psql_conn, note, skip):
         self.oauth_keys = oauth_keys
         self.psql_connection = psql_conn
         self.counter = 0
-        self.skip = 20
+        self.skip = skip
+        self.note = note
+        self.bypass = False
         keys_to_use_index = random.randint(0, len(oauth_keys)-1)
-        print "Connecting with keys: " + str(keys_to_use_index)
+        logger.warning("Connecting with keys: " + str(keys_to_use_index))
         keys_to_use = oauth_keys[keys_to_use_index]
         TwythonStreamer.__init__(self,
             keys_to_use['consumer_key'], keys_to_use['consumer_secret'],
             keys_to_use['access_token_key'], keys_to_use['access_token_secret'])
         
         self.psql_cursor = self.psql_connection.cursor()
-        self.psql_table = 'random_sample'
+        self.psql_table = 'tweets_local'
         
         psycopg2.extras.register_hstore(self.psql_connection)
         # self.min_lon, self.min_lat, self.max_lon, self.max_lat =\
         #     [float(s.strip()) for s in utils.CITY_LOCATIONS[city_name]['locations'].split(',')]
 
     def on_success(self, data):
+        ts = datetime.datetime.now()
         str_data = str(data)
         message = ast.literal_eval(str_data)
-        self.counter += 1
-        if (self.counter % self.skip) != 0:
+        if not self.bypass:
+            self.counter += 1       
+        if ((self.counter % self.skip) != 0) and not self.bypass:
             pass;      
         elif message.get('limit'):
-            print 'Rate limiting caused us to miss %s tweets' % (message['limit'].get('track'))
+            logger.warning('Rate limiting caused us to miss %s tweets (%s)' % (message['limit'].get('track'), self.note))
+            self.counter = self.counter + int(message['limit'].get('track'))
         elif message.get('disconnect'):
-            raise Exception('Got disconnect: %s' % message['disconnect'].get('reason'))
+            raise Exception('Got disconnect: %s (%s)' % (message['disconnect'].get('reason'), self.note))
         elif message.get('warning'):
-            print 'Got warning: %s' % message['warning'].get('message')
-        elif 'delete' in message:
-            print 'delete message. ignoring'
-        elif message['lang'] != "en":
-            print 'not english language tweet'
-        else:
+            logger.warning('Got warning: %s (%s)' % (message['warning'].get('message'), self.note))
+        elif 'delete' in message or message['lang'] != "en":
+            pass
+        elif self.note == "non":
             # Check to make sure the point is actually in the bbox.
             if 'coordinates' not in message or message['coordinates'] == None or 'coordinates' not in message['coordinates']:
                 message['coordinates'] = {'coordinates': [-999, -999]}
             self.save_to_postgres(dict(message))
-            print 'Got tweet: %s' % message.get('text').encode('utf-8')
-            # TODO save foursquare data to its own table
-            # self.save_foursquare_data_if_present(message)
+            logger.info('Got tweet: %s (%s, %s, %s)' % (message.get('text').encode('utf-8'), self.note, message['coordinates']['coordinates'][0], message['id']))
+        elif self.note == "geo":
+            if 'coordinates' in message and message['coordinates'] != None:
+                self.save_to_postgres(dict(message))
+                logger.info('Got tweet: %s (%s, %s, %s)' % (message.get('text').encode('utf-8'), self.note, message['coordinates']['coordinates'][0], message['id']))
+                self.bypass = False
+            else:
+                self.bypass = True
+                
+            
+        logger.info('(%s) - done-success (%s)' % (self.note,self.counter))
 
-
+    def on_timeout(self):
+        print 'timed out'
+        
     def on_error(self, status_code, data):
-        print "Error: " + str(status_code)
-        print data
+        logger.warning(data)
         if status_code == 420: # "Enhance your calm" aka rate-limit
-            print "Rate limit, will try again."
+            logger.warning("Rate limit, will try again (%s)." % self.note)
             time.sleep(3)
         elif status_code == 401: # "Unauthorized": maybe the IP is blocked
             # for an arbitrarily large amount of time due to too many
             # connections. 
-            print "Unauthorized; sleeping for an hour."
+            logger.warning("Unauthorized; sleeping for an hour.")
             time.sleep(60*60)
         self.disconnect() 
 
@@ -96,20 +128,67 @@ class MyStreamer(TwythonStreamer):
             self.psql_connection.rollback() # just ignore the error
             # because, whatever, we miss one tweet
 
+def streamingGeoFunction(psql_conn, args):
+    print 'starting geo'
+    sleep_time = 0
+     
+    while True:
+        stream = MyStreamer(OAUTH_KEYS, psql_conn, 'geo', 10)
+        try:
+            stream.statuses.filter(locations="-126.045569,27.458166,-66.646275,45.621386", stall_warning=True)
+        except Exception as e:
+            logger.warning("Error (geo)")
+            logger.warning(e)
+            logger.info("(geo) Sleeping for %d seconds." % sleep_time)
+        time.sleep(sleep_time)
+        sleep_time = 5
+
+def streamingNonFunction(psql_conn, args):
+    print 'starting non'
+    sleep_time = 0
+     
+    while True:
+        stream = MyStreamer(OAUTH_KEYS, psql_conn, 'non', 40)
+        try:
+            stream.statuses.sample(language="en", stall_warning=True)
+        except Exception as e:
+            logger.warning("Error (non)")
+            logger.warning(e)
+            logger.info("(non) Sleeping for %d seconds." % sleep_time)
+        time.sleep(sleep_time)
+        sleep_time = 5
+        
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     args = parser.parse_args()
 
-    psql_conn = psycopg2.connect("dbname='tweet'")
+    psql_conn = psycopg2.connect("dbname='tweets_local'")
 
-    sleep_time = 0
-    while True:
-        stream = MyStreamer(OAUTH_KEYS, psql_conn)
-        try:
-            # stream.statuses.filter(locations=utils.CITY_LOCATIONS[args.city]['locations'])
-            stream.statuses.sample()
-        except httplib.IncompleteRead:
-            print "Incomplete Read Error, trying again."
-        print "Sleeping for %d seconds." % sleep_time
-        time.sleep(sleep_time)
-        sleep_time = 5
+
+    
+    geoThread = threading.Thread(target=streamingGeoFunction, args=(psql_conn, args))
+    nonThread = threading.Thread(target=streamingNonFunction, args=(psql_conn, args))
+    
+    geoThread.setDaemon(True)
+    nonThread.setDaemon(True)
+    
+    geoThread.start()
+    nonThread.start()
+    
+    psql_cur = psql_conn.cursor()
+    psql_cur.execute("SELECT * FROM tweets_local WHERE ST_X(coordinates) > -500")
+    totalGeoTweets = psql_cur.rowcount
+    psql_cur.execute("SELECT * FROM tweets_local WHERE ST_X(coordinates) < -500")
+    totalNonTweets = psql_cur.rowcount
+   
+    while threading.active_count() > 0:
+        psql_cur.execute("SELECT * FROM tweets_local WHERE ST_X(coordinates) > -500")
+        newGeoTweets = psql_cur.rowcount
+        psql_cur.execute("SELECT * FROM tweets_local WHERE ST_X(coordinates) < -500")
+        newNonTweets = psql_cur.rowcount
+        logger.warning("in the last few seconds got %s geo tweets %s non tweets" % ((newGeoTweets - totalGeoTweets),(newNonTweets - totalNonTweets)))
+        totalGeoTweets = newGeoTweets
+        totalNonTweets = newNonTweets
+        time.sleep(10)
+  
+    

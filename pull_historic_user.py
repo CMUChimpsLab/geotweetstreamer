@@ -73,10 +73,7 @@ def checkIfAlreadyHaveTweet(cursor, table, id):
     
 def saveSectionOfTweets(twython, screen_name, table, conn, cursor, include_replies=False):
     min_id_of_currently_saved_tweets =  get_min_id(screen_name, table, conn, cursor)
-    if min_id_of_currently_saved_tweets:
-        tweets = twython.get_user_timeline(screen_name=args.screen_name, count=200, max_id=min_id_of_currently_saved_tweets)
-    else: 
-        tweets = twython.get_user_timeline(screen_name=args.screen_name, count=200)
+    tweets = twython.get_user_timeline(screen_name=args.screen_name, count=200)
     
     
     if(len(tweets) == 0):

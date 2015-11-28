@@ -98,7 +98,7 @@ if __name__ == '__main__':
     parser.add_argument('--city', required=True, choices=utils.CITY_LOCATIONS.keys())
     args = parser.parse_args()
 
-    psql_conn = psycopg2.connect("dbname='tweet'")
+    psql_conn = psycopg2.connect("dbname='tweet_local'")
 
     sleep_time = 0
     while True:
