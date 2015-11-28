@@ -210,7 +210,7 @@ if __name__ == '__main__':
     
     geoThreadWest.start()
     geoThreadEast.start()
-    nonThread.start()"+args.table+"
+    nonThread.start()
     
     psql_cur = psql_conn.cursor()
     psql_cur.execute("SELECT * FROM "+args.table+" WHERE ST_X(coordinates) > -500")
