@@ -153,7 +153,7 @@ def streamingNonFunction(psql_conn, args):
     sleep_time = 0
      
     while True:
-        stream = MyStreamer(OAUTH_KEYS, psql_conn, 'non', 30)
+        stream = MyStreamer(OAUTH_KEYS, psql_conn, 'non', 15)
         try:
             stream.statuses.sample(language="en", stall_warning=True)
         except Exception as e:
@@ -219,7 +219,7 @@ if __name__ == '__main__':
     totalNonTweets = psql_cur.rowcount
     
     alreadyEmailed = False
-    time.sleep(30)
+    time.sleep(60)
     while threading.active_count() > 0:
         psql_cur.execute("SELECT * FROM "+args.table+" WHERE ST_X(coordinates) > -500")
         newGeoTweets = psql_cur.rowcount
@@ -234,7 +234,7 @@ if __name__ == '__main__':
         if((diffGeo == 0 or diffNon == 0) and not alreadyEmailed):
             alreadyEmailed = True
             emailError(diffGeo, diffNon)
-        time.sleep(30)
+        time.sleep(60)
 
 
   
