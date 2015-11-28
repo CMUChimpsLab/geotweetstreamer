@@ -210,20 +210,20 @@ if __name__ == '__main__':
     
     geoThreadWest.start()
     geoThreadEast.start()
-    nonThread.start()
+    nonThread.start()"+args.table+"
     
     psql_cur = psql_conn.cursor()
-    psql_cur.execute("SELECT * FROM tweets_local WHERE ST_X(coordinates) > -500")
+    psql_cur.execute("SELECT * FROM "+args.table+" WHERE ST_X(coordinates) > -500")
     totalGeoTweets = psql_cur.rowcount
-    psql_cur.execute("SELECT * FROM tweets_local WHERE ST_X(coordinates) < -500")
+    psql_cur.execute("SELECT * FROM "+args.table+" WHERE ST_X(coordinates) < -500")
     totalNonTweets = psql_cur.rowcount
     
     alreadyEmailed = False
     time.sleep(30)
     while threading.active_count() > 0:
-        psql_cur.execute("SELECT * FROM tweets_local WHERE ST_X(coordinates) > -500")
+        psql_cur.execute("SELECT * FROM "+args.table+" WHERE ST_X(coordinates) > -500")
         newGeoTweets = psql_cur.rowcount
-        psql_cur.execute("SELECT * FROM tweets_local WHERE ST_X(coordinates) < -500")
+        psql_cur.execute("SELECT * FROM "+args.table+" WHERE ST_X(coordinates) < -500")
         newNonTweets = psql_cur.rowcount
         diffGeo = (newGeoTweets - totalGeoTweets)
         diffNon = (newNonTweets - totalNonTweets)
