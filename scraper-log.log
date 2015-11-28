@@ -2195,3 +2195,25 @@ $8.00 for a burger so you know i had to get this… https://t.co/LM1UbJCi4d (geo
 2015-11-28 08:41:25,272 - random-sample.log - WARNING - Connecting with keys: 2
 2015-11-28 08:41:25,273 - random-sample.log - WARNING - Connecting with keys: 0
 2015-11-28 08:41:25,275 - random-sample.log - WARNING - Connecting with keys: 4
+2015-11-28 09:42:21,551 - random-sample.log - WARNING - Connecting with keys: 4
+2015-11-28 09:42:21,551 - random-sample.log - WARNING - Connecting with keys: 3
+2015-11-28 09:42:21,551 - random-sample.log - WARNING - Connecting with keys: 2
+2015-11-28 09:43:08,903 - random-sample.log - WARNING - Error (non)
+2015-11-28 09:43:08,904 - random-sample.log - WARNING - ('Connection broken: IncompleteRead(0 bytes read, 1 more expected)', IncompleteRead(0 bytes read, 1 more expected))
+2015-11-28 09:43:08,904 - random-sample.log - WARNING - Connecting with keys: 1
+2015-11-28 09:43:19,258 - random-sample.log - WARNING - stream mynewwebpage-statuses7419099866991219591 request Timedout.
+
+2015-11-28 09:43:21,709 - random-sample.log - WARNING - in the last few seconds got 31 geo tweets 22 non tweets
+2015-11-28 09:43:24,261 - random-sample.log - WARNING - Connecting with keys: 3
+2015-11-28 09:44:09,029 - random-sample.log - WARNING - Error (non)
+2015-11-28 09:44:09,030 - random-sample.log - WARNING - ('Connection broken: IncompleteRead(0 bytes read, 1 more expected)', IncompleteRead(0 bytes read, 1 more expected))
+2015-11-28 09:44:14,033 - random-sample.log - WARNING - Connecting with keys: 2
+2015-11-28 09:44:21,746 - random-sample.log - WARNING - in the last few seconds got 34 geo tweets 26 non tweets
+2015-11-28 09:44:36,560 - random-sample.log - WARNING - Connecting with keys: 4
+2015-11-28 09:44:36,562 - random-sample.log - WARNING - Connecting with keys: 2
+2015-11-28 09:44:36,562 - random-sample.log - WARNING - Connecting with keys: 0
+2015-11-28 09:45:36,660 - random-sample.log - WARNING - in the last few seconds got 35 geo tweets 9 non tweets
+2015-11-28 09:46:36,699 - random-sample.log - WARNING - in the last few seconds got 35 geo tweets 10 non tweets
+2015-11-28 09:52:00,720 - random-sample.log - WARNING - Connecting with keys: 1
+2015-11-28 09:52:00,720 - random-sample.log - WARNING - Connecting with keys: 2
+2015-11-28 09:52:00,721 - random-sample.log - WARNING - Connecting with keys: 0

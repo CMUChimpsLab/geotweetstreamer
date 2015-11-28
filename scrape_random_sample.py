@@ -67,36 +67,37 @@ class MyStreamer(TwythonStreamer):
         # self.min_lon, self.min_lat, self.max_lon, self.max_lat =\
         #     [float(s.strip()) for s in utils.CITY_LOCATIONS[city_name]['locations'].split(',')]
 
-    def on_success(self, data):
-        ts = datetime.datetime.now()
-        str_data = str(data)
-        message = ast.literal_eval(str_data)
-        if not self.bypass:
-            self.counter += 1       
+    def on_success(self, data):        
+        self.counter += 1 if not self.bypass else 0  
+                   
         if ((self.counter % self.skip) != 0) and not self.bypass:
             pass;      
-        elif message.get('limit'):
-            logger.warning('Rate limiting caused us to miss %s tweets (%s)' % (message['limit'].get('track'), self.note))
-            self.counter = self.counter + int(message['limit'].get('track'))
-        elif message.get('disconnect'):
-            raise Exception('Got disconnect: %s (%s)' % (message['disconnect'].get('reason'), self.note))
-        elif message.get('warning'):
-            logger.warning('Got warning: %s (%s)' % (message['warning'].get('message'), self.note))
-        elif 'delete' in message or message['lang'] != "en":
-            pass
-        elif self.note == "non":
-            # Check to make sure the point is actually in the bbox.
-            if 'coordinates' not in message or message['coordinates'] == None or 'coordinates' not in message['coordinates']:
-                message['coordinates'] = {'coordinates': [-999, -999]}
-            self.save_to_postgres(dict(message))
-            logger.info('Got tweet: %s (%s, %s, %s)' % (message.get('text').encode('utf-8'), self.note, message['coordinates']['coordinates'][0], message['id']))
-        elif self.note == "geo":
-            if 'coordinates' in message and message['coordinates'] != None:
+        else:
+            ts = datetime.datetime.now()
+            str_data = str(data)
+            message = ast.literal_eval(str_data)
+            if message.get('limit'):
+                logger.warning('Rate limiting caused us to miss %s tweets (%s)' % (message['limit'].get('track'), self.note))
+                self.counter = self.counter + int(message['limit'].get('track'))
+            elif message.get('disconnect'):
+                raise Exception('Got disconnect: %s (%s)' % (message['disconnect'].get('reason'), self.note))
+            elif message.get('warning'):
+                logger.warning('Got warning: %s (%s)' % (message['warning'].get('message'), self.note))
+            elif 'delete' in message or message['lang'] != "en":
+                pass
+            elif self.note == "non":
+                # Check to make sure the point is actually in the bbox.
+                if 'coordinates' not in message or message['coordinates'] == None or 'coordinates' not in message['coordinates']:
+                    message['coordinates'] = {'coordinates': [-999, -999]}
                 self.save_to_postgres(dict(message))
                 logger.info('Got tweet: %s (%s, %s, %s)' % (message.get('text').encode('utf-8'), self.note, message['coordinates']['coordinates'][0], message['id']))
-                self.bypass = False
-            else:
-                self.bypass = True
+            elif self.note == "geo":
+                if 'coordinates' in message and message['coordinates'] != None:
+                    self.save_to_postgres(dict(message))
+                    logger.info('Got tweet: %s (%s, %s, %s)' % (message.get('text').encode('utf-8'), self.note, message['coordinates']['coordinates'][0], message['id']))
+                    self.bypass = False
+                else:
+                    self.bypass = True
                 
             
         logger.info('(%s) - done-success (%s)' % (self.note,self.counter))
