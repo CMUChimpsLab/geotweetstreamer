@@ -10,6 +10,7 @@ import twython.exceptions
 import logging
 import sys
 import threading
+import smtplib
 
 logger = logging.getLogger('random-sample.log')
 logger.setLevel(logging.INFO)
@@ -128,14 +129,17 @@ class MyStreamer(TwythonStreamer):
             self.psql_connection.rollback() # just ignore the error
             # because, whatever, we miss one tweet
 
-def streamingGeoFunction(psql_conn, args):
+def streamingGeoFunction(psql_conn, args, side):
     print 'starting geo'
     sleep_time = 0
      
     while True:
-        stream = MyStreamer(OAUTH_KEYS, psql_conn, 'geo', 10)
+        stream = MyStreamer(OAUTH_KEYS, psql_conn, 'geo', 20)
         try:
-            stream.statuses.filter(locations="-126.045569,27.458166,-66.646275,45.621386", stall_warning=True)
+            if(side == "west"):
+                stream.statuses.filter(locations="-126.045569,27.458166,-92.8921722,45.621386", stall_warning=True)
+            else:
+                stream.statuses.filter(locations="-92.8921722,27.458166,-66.646275,45.621386", stall_warning=True)
         except Exception as e:
             logger.warning("Error (geo)")
             logger.warning(e)
@@ -148,7 +152,7 @@ def streamingNonFunction(psql_conn, args):
     sleep_time = 0
      
     while True:
-        stream = MyStreamer(OAUTH_KEYS, psql_conn, 'non', 40)
+        stream = MyStreamer(OAUTH_KEYS, psql_conn, 'non', 30)
         try:
             stream.statuses.sample(language="en", stall_warning=True)
         except Exception as e:
@@ -157,7 +161,32 @@ def streamingNonFunction(psql_conn, args):
             logger.info("(non) Sleeping for %d seconds." % sleep_time)
         time.sleep(sleep_time)
         sleep_time = 5
-        
+
+def emailError(diffGeo, diffNon):
+    FROM_EMAIL = config.get('error_handling', 'email')
+    TO_EMAILS = config.get('error_handling_to_addr', 'email').split(',')
+    PSWD = config.get('error_handling', 'password')
+    
+    s = smtplib.SMTP('smtp.gmail.com', 587)  
+    s.ehlo()
+    s.starttls()
+    s.ehlo
+    s.login(FROM_EMAIL, PSWD)
+
+    headers = ["from: " + FROM_EMAIL,
+               "subject: Error: stopped collecting data",
+               "to: " + ', '.join(TO_EMAILS),
+               "mime-version: 1.0",
+               "content-type: text/html"]
+    headers = "\r\n".join(headers)
+    body = "Data collection seems to be not working. \r\n\r\n" \
+           + "Difference Geo: " + str(diffGeo) + "\r\n\r\n" \
+           + "Difference Non: " + str(diffNon)
+
+    s.sendmail(FROM_EMAIL, TO_EMAILS, headers + "\r\n\r\n" + body)
+    s.quit()
+    return
+    
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     args = parser.parse_args()
@@ -166,13 +195,16 @@ if __name__ == '__main__':
 
 
     
-    geoThread = threading.Thread(target=streamingGeoFunction, args=(psql_conn, args))
+    geoThreadWest = threading.Thread(target=streamingGeoFunction, args=(psql_conn, args, 'west'))
+    geoThreadEast = threading.Thread(target=streamingGeoFunction, args=(psql_conn, args, 'east'))
     nonThread = threading.Thread(target=streamingNonFunction, args=(psql_conn, args))
     
-    geoThread.setDaemon(True)
+    geoThreadWest.setDaemon(True)
+    geoThreadEast.setDaemon(True)    
     nonThread.setDaemon(True)
     
-    geoThread.start()
+    geoThreadWest.start()
+    geoThreadEast.start()
     nonThread.start()
     
     psql_cur = psql_conn.cursor()
@@ -180,15 +212,25 @@ if __name__ == '__main__':
     totalGeoTweets = psql_cur.rowcount
     psql_cur.execute("SELECT * FROM tweets_local WHERE ST_X(coordinates) < -500")
     totalNonTweets = psql_cur.rowcount
-   
+    
+    alreadyEmailed = False
+    time.sleep(30)
     while threading.active_count() > 0:
         psql_cur.execute("SELECT * FROM tweets_local WHERE ST_X(coordinates) > -500")
         newGeoTweets = psql_cur.rowcount
         psql_cur.execute("SELECT * FROM tweets_local WHERE ST_X(coordinates) < -500")
         newNonTweets = psql_cur.rowcount
-        logger.warning("in the last few seconds got %s geo tweets %s non tweets" % ((newGeoTweets - totalGeoTweets),(newNonTweets - totalNonTweets)))
+        diffGeo = (newGeoTweets - totalGeoTweets)
+        diffNon = (newNonTweets - totalNonTweets)
         totalGeoTweets = newGeoTweets
         totalNonTweets = newNonTweets
-        time.sleep(10)
+        
+        logger.warning("in the last few seconds got %s geo tweets %s non tweets" % (diffGeo,diffNon))
+        if((diffGeo == 0 or diffNon == 0) and not alreadyEmailed):
+            alreadyEmailed = True
+            emailError(diffGeo, diffNon)
+        time.sleep(30)
+
+
   
     

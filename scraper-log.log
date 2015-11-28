@@ -2160,3 +2160,32 @@ $8.00 for a burger so you know i had to get this… https://t.co/LM1UbJCi4d (geo
 2015-11-27 22:53:49,857 - random-sample.log - WARNING - Connecting with keys: 1
 2015-11-27 22:53:49,857 - random-sample.log - WARNING - Connecting with keys: 3
 2015-11-27 22:53:49,951 - random-sample.log - WARNING - in the last few seconds got 0 geo tweets 0 non tweets
+2015-11-28 08:16:00,265 - random-sample.log - WARNING - Connecting with keys: 0
+2015-11-28 08:16:00,265 - random-sample.log - WARNING - Connecting with keys: 3
+2015-11-28 08:16:00,265 - random-sample.log - WARNING - Connecting with keys: 3
+2015-11-28 08:16:00,491 - random-sample.log - WARNING - in the last few seconds got 0 geo tweets 0 non tweets
+2015-11-28 08:16:10,527 - random-sample.log - WARNING - in the last few seconds got 1 geo tweets 2 non tweets
+2015-11-28 08:16:11,153 - random-sample.log - WARNING - stream SciutoAlex-statuses7396109533818969224 request Timedout.
+
+2015-11-28 08:16:11,154 - random-sample.log - WARNING - Connecting with keys: 0
+2015-11-28 08:16:20,560 - random-sample.log - WARNING - in the last few seconds got 6 geo tweets 4 non tweets
+2015-11-28 08:16:30,594 - random-sample.log - WARNING - in the last few seconds got 3 geo tweets 3 non tweets
+2015-11-28 08:16:40,629 - random-sample.log - WARNING - in the last few seconds got 6 geo tweets 3 non tweets
+2015-11-28 08:16:50,660 - random-sample.log - WARNING - in the last few seconds got 5 geo tweets 3 non tweets
+2015-11-28 08:17:00,694 - random-sample.log - WARNING - in the last few seconds got 4 geo tweets 3 non tweets
+2015-11-28 08:17:10,731 - random-sample.log - WARNING - in the last few seconds got 7 geo tweets 3 non tweets
+2015-11-28 08:17:20,767 - random-sample.log - WARNING - in the last few seconds got 5 geo tweets 3 non tweets
+2015-11-28 08:29:39,923 - random-sample.log - WARNING - Connecting with keys: 0
+2015-11-28 08:29:39,924 - random-sample.log - WARNING - Connecting with keys: 1
+2015-11-28 08:29:39,924 - random-sample.log - WARNING - Connecting with keys: 2
+2015-11-28 08:29:57,228 - random-sample.log - WARNING - Connecting with keys: 4
+2015-11-28 08:29:57,228 - random-sample.log - WARNING - Connecting with keys: 2
+2015-11-28 08:29:57,230 - random-sample.log - WARNING - Connecting with keys: 2
+2015-11-28 08:30:14,939 - random-sample.log - WARNING - Connecting with keys: 0
+2015-11-28 08:30:14,940 - random-sample.log - WARNING - Connecting with keys: 4
+2015-11-28 08:30:14,941 - random-sample.log - WARNING - Connecting with keys: 4
+2015-11-28 08:30:17,411 - random-sample.log - WARNING - in the last few seconds got 1 geo tweets 0 non tweets
+2015-11-28 08:33:41,497 - random-sample.log - WARNING - Connecting with keys: 4
+2015-11-28 08:33:41,499 - random-sample.log - WARNING - Connecting with keys: 0
+2015-11-28 08:33:41,499 - random-sample.log - WARNING - Connecting with keys: 4
+2015-11-28 08:34:11,595 - random-sample.log - WARNING - in the last few seconds got 18 geo tweets 11 non tweets
