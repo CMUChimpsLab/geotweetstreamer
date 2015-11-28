@@ -32,6 +32,7 @@ logger.info('hi')
 config = ConfigParser.ConfigParser()
 config.read('config.txt')
 
+
 OAUTH_KEYS = [{'consumer_key': config.get('twitter-' + str(i), 'consumer_key'),
               'consumer_secret': config.get('twitter-' + str(i), 'consumer_secret'),
               'access_token_key': config.get('twitter-' + str(i), 'access_token_key'),
@@ -60,7 +61,7 @@ class MyStreamer(TwythonStreamer):
             keys_to_use['access_token_key'], keys_to_use['access_token_secret'])
         
         self.psql_cursor = self.psql_connection.cursor()
-        self.psql_table = 'tweets_local'
+        self.psql_table = table
         
         psycopg2.extras.register_hstore(self.psql_connection)
         # self.min_lon, self.min_lat, self.max_lon, self.max_lat =\
@@ -189,9 +190,13 @@ def emailError(diffGeo, diffNon):
     
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
+    parser.add_argument('--db', required=True)
+    parser.add_argument('--table', required=True)
     args = parser.parse_args()
-
-    psql_conn = psycopg2.connect("dbname='tweets_local'")
+    
+    global table
+    table = args.table
+    psql_conn = psycopg2.connect("dbname='"+args.db+"'")
 
 
     
