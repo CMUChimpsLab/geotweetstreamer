@@ -32,6 +32,8 @@ logger.info('hi')
 config = ConfigParser.ConfigParser()
 config.read('config.txt')
 
+totalTweets = 0
+totalSeconds = 1
 
 OAUTH_KEYS = [{'consumer_key': config.get('twitter-' + str(i), 'consumer_key'),
               'consumer_secret': config.get('twitter-' + str(i), 'consumer_secret'),
@@ -53,6 +55,7 @@ class MyStreamer(TwythonStreamer):
         self.skip = skip
         self.note = note
         self.bypass = False
+        self.totalTweets = 0
         keys_to_use_index = random.randint(0, len(oauth_keys)-1)
         logger.warning("Connecting with keys: " + str(keys_to_use_index))
         keys_to_use = oauth_keys[keys_to_use_index]
@@ -67,15 +70,14 @@ class MyStreamer(TwythonStreamer):
         # self.min_lon, self.min_lat, self.max_lon, self.max_lat =\
         #     [float(s.strip()) for s in utils.CITY_LOCATIONS[city_name]['locations'].split(',')]
 
-    def on_success(self, data):        
+    def on_success(self, data):    
         self.counter += 1 if not self.bypass else 0  
-                   
+        self.totalTweets = self.totalTweets + 1 
+        str_data = str(data)
+        message = ast.literal_eval(str_data) 
         if ((self.counter % self.skip) != 0) and not self.bypass:
             pass;      
         else:
-            ts = datetime.datetime.now()
-            str_data = str(data)
-            message = ast.literal_eval(str_data)
             if message.get('limit'):
                 logger.warning('Rate limiting caused us to miss %s tweets (%s)' % (message['limit'].get('track'), self.note))
                 self.counter = self.counter + int(message['limit'].get('track'))
@@ -83,21 +85,17 @@ class MyStreamer(TwythonStreamer):
                 raise Exception('Got disconnect: %s (%s)' % (message['disconnect'].get('reason'), self.note))
             elif message.get('warning'):
                 logger.warning('Got warning: %s (%s)' % (message['warning'].get('message'), self.note))
-            elif 'delete' in message or message['lang'] != "en":
+            elif 'delete' in message:
                 pass
-            elif self.note == "non":
+            else:
+                ts = datetime.datetime.now()
+                time = datetime.datetime.strptime(message['created_at'],'%a %b %d %H:%M:%S +0000 %Y')
+                print "%s - %s"%(self.totalTweets*1.0/totalSeconds, (ts-time).seconds )
                 # Check to make sure the point is actually in the bbox.
                 if 'coordinates' not in message or message['coordinates'] == None or 'coordinates' not in message['coordinates']:
                     message['coordinates'] = {'coordinates': [-999, -999]}
                 self.save_to_postgres(dict(message))
-                logger.info('Got tweet: %s (%s, %s, %s)' % (message.get('text').encode('utf-8'), self.note, message['coordinates']['coordinates'][0], message['id']))
-            elif self.note == "geo":
-                if 'coordinates' in message and message['coordinates'] != None:
-                    self.save_to_postgres(dict(message))
-                    logger.info('Got tweet: %s (%s, %s, %s)' % (message.get('text').encode('utf-8'), self.note, message['coordinates']['coordinates'][0], message['id']))
-                    self.bypass = False
-                else:
-                    self.bypass = True
+                #logger.info('Got tweet: %s (%s, %s, %s)' % (message.get('text').encode('utf-8'), self.note, message['coordinates']['coordinates'][0], message['id']))
                 
             
         logger.info('(%s) - done-success (%s)' % (self.note,self.counter))
@@ -154,9 +152,9 @@ def streamingNonFunction(psql_conn, args):
     sleep_time = 0
      
     while True:
-        stream = MyStreamer(OAUTH_KEYS, psql_conn, 'non', 15)
+        stream = MyStreamer(OAUTH_KEYS, psql_conn, 'non', 20)
         try:
-            stream.statuses.sample(language="en", stall_warning=True)
+            stream.statuses.sample(language = "en", stall_warning=True)
         except Exception as e:
             logger.warning("Error (non)")
             logger.warning(e)
@@ -201,16 +199,16 @@ if __name__ == '__main__':
 
 
     
-    geoThreadWest = threading.Thread(target=streamingGeoFunction, args=(psql_conn, args, 'west'))
-    geoThreadEast = threading.Thread(target=streamingGeoFunction, args=(psql_conn, args, 'east'))
+    # geoThreadWest = threading.Thread(target=streamingGeoFunction, args=(psql_conn, args, 'west'))
+    # geoThreadEast = threading.Thread(target=streamingGeoFunction, args=(psql_conn, args, 'east'))
     nonThread = threading.Thread(target=streamingNonFunction, args=(psql_conn, args))
     
-    geoThreadWest.setDaemon(True)
-    geoThreadEast.setDaemon(True)    
+    # geoThreadWest.setDaemon(True)
+    # geoThreadEast.setDaemon(True)    
     nonThread.setDaemon(True)
     
-    geoThreadWest.start()
-    geoThreadEast.start()
+    # geoThreadWest.start()
+    # geoThreadEast.start()
     nonThread.start()
     
     psql_cur = psql_conn.cursor()
@@ -220,22 +218,22 @@ if __name__ == '__main__':
     totalNonTweets = psql_cur.rowcount
     
     alreadyEmailed = False
-    time.sleep(60)
     while threading.active_count() > 0:
-        psql_cur.execute("SELECT * FROM "+args.table+" WHERE ST_X(coordinates) > -500")
-        newGeoTweets = psql_cur.rowcount
-        psql_cur.execute("SELECT * FROM "+args.table+" WHERE ST_X(coordinates) < -500")
-        newNonTweets = psql_cur.rowcount
-        diffGeo = (newGeoTweets - totalGeoTweets)
-        diffNon = (newNonTweets - totalNonTweets)
-        totalGeoTweets = newGeoTweets
-        totalNonTweets = newNonTweets
+        totalSeconds = totalSeconds + 1
+        # psql_cur.execute("SELECT * FROM "+args.table+" WHERE ST_X(coordinates) > -500")
+        # newGeoTweets = psql_cur.rowcount
+        # psql_cur.execute("SELECT * FROM "+args.table+" WHERE ST_X(coordinates) < -500")
+        # newNonTweets = psql_cur.rowcount
+        # diffGeo = (newGeoTweets - totalGeoTweets)
+        # diffNon = (newNonTweets - totalNonTweets)
+        # totalGeoTweets = newGeoTweets
+        # totalNonTweets = newNonTweets
         
-        logger.warning("in the last few seconds got %s geo tweets %s non tweets" % (diffGeo,diffNon))
-        if((diffGeo == 0 or diffNon == 0) and not alreadyEmailed):
-            alreadyEmailed = True
-            emailError(diffGeo, diffNon)
-        time.sleep(60)
+        # logger.warning("in the last few seconds got %s geo tweets %s non tweets" % (diffGeo,diffNon))
+        # if((diffGeo == 0 or diffNon == 0) and not alreadyEmailed):
+        #     alreadyEmailed = True
+        #     emailError(diffGeo, diffNon)
+        time.sleep(1)
 
 
   

@@ -2217,3 +2217,169 @@ $8.00 for a burger so you know i had to get this… https://t.co/LM1UbJCi4d (geo
 2015-11-28 09:52:00,720 - random-sample.log - WARNING - Connecting with keys: 1
 2015-11-28 09:52:00,720 - random-sample.log - WARNING - Connecting with keys: 2
 2015-11-28 09:52:00,721 - random-sample.log - WARNING - Connecting with keys: 0
+2015-11-29 10:08:41,895 - random-sample.log - WARNING - Connecting with keys: 4
+2015-11-29 10:08:52,980 - random-sample.log - WARNING - Connecting with keys: 0
+2015-11-29 10:08:53,983 - random-sample.log - WARNING - Error (non)
+2015-11-29 10:08:53,984 - random-sample.log - WARNING - local variable 'totalTweets' referenced before assignment
+2015-11-29 10:08:53,984 - random-sample.log - WARNING - Connecting with keys: 2
+2015-11-29 10:08:54,819 - random-sample.log - WARNING - Error (non)
+2015-11-29 10:08:54,820 - random-sample.log - WARNING - local variable 'totalTweets' referenced before assignment
+2015-11-29 10:09:40,677 - random-sample.log - WARNING - Connecting with keys: 2
+2015-11-29 10:09:41,204 - random-sample.log - WARNING - Error (non)
+2015-11-29 10:09:41,204 - random-sample.log - WARNING - local variable 'totalTweets' referenced before assignment
+2015-11-29 10:09:41,205 - random-sample.log - WARNING - Connecting with keys: 3
+2015-11-29 10:09:41,768 - random-sample.log - WARNING - Error (non)
+2015-11-29 10:09:41,768 - random-sample.log - WARNING - local variable 'totalTweets' referenced before assignment
+2015-11-29 10:09:46,771 - random-sample.log - WARNING - Connecting with keys: 3
+2015-11-29 10:09:57,133 - random-sample.log - WARNING - stream SciutoAlex-statuses7806120570359834998 request Timedout.
+
+2015-11-29 10:10:02,135 - random-sample.log - WARNING - Connecting with keys: 1
+2015-11-29 10:10:03,809 - random-sample.log - WARNING - Error (non)
+2015-11-29 10:10:03,809 - random-sample.log - WARNING - local variable 'totalTweets' referenced before assignment
+2015-11-29 10:10:38,651 - random-sample.log - WARNING - Connecting with keys: 0
+2015-11-29 10:10:39,829 - random-sample.log - WARNING - Error (non)
+2015-11-29 10:10:39,829 - random-sample.log - WARNING - local variable 'totalTweets' referenced before assignment
+2015-11-29 10:10:39,829 - random-sample.log - WARNING - Connecting with keys: 2
+2015-11-29 10:11:18,612 - random-sample.log - WARNING - Connecting with keys: 4
+2015-11-29 10:12:03,978 - random-sample.log - WARNING - Connecting with keys: 3
+2015-11-29 10:12:44,327 - random-sample.log - WARNING - Connecting with keys: 4
+2015-11-29 10:12:55,189 - random-sample.log - WARNING - Internal Server Error
+
+2015-11-29 10:12:55,189 - random-sample.log - WARNING - Connecting with keys: 4
+2015-11-29 10:12:55,734 - random-sample.log - WARNING - Error (non)
+2015-11-29 10:12:55,734 - random-sample.log - WARNING - local variable 'totalTweets' referenced before assignment
+2015-11-29 10:14:02,667 - random-sample.log - WARNING - Connecting with keys: 3
+2015-11-29 10:15:47,630 - random-sample.log - WARNING - Connecting with keys: 4
+2015-11-29 10:16:29,358 - random-sample.log - WARNING - Connecting with keys: 4
+2015-11-29 10:16:40,189 - random-sample.log - WARNING - stream SciutoAlex-statuses7807892741411102067 request Timedout.
+
+2015-11-29 10:16:40,189 - random-sample.log - WARNING - Connecting with keys: 2
+2015-11-29 10:22:01,571 - random-sample.log - WARNING - Connecting with keys: 2
+2015-11-29 10:25:29,620 - random-sample.log - WARNING - Connecting with keys: 2
+2015-11-29 10:34:23,664 - random-sample.log - WARNING - Error (non)
+2015-11-29 10:34:23,664 - random-sample.log - WARNING - ('Connection broken: IncompleteRead(0 bytes read, 1 more expected)', IncompleteRead(0 bytes read, 1 more expected))
+2015-11-29 10:34:23,664 - random-sample.log - WARNING - Connecting with keys: 1
+2015-11-29 10:41:31,892 - random-sample.log - WARNING - Connecting with keys: 3
+2015-11-29 10:43:46,980 - random-sample.log - WARNING - Connecting with keys: 3
+2015-11-29 10:43:48,184 - random-sample.log - WARNING - Error (non)
+2015-11-29 10:43:48,184 - random-sample.log - WARNING - local variable 'str_data' referenced before assignment
+2015-11-29 10:43:48,184 - random-sample.log - WARNING - Connecting with keys: 4
+2015-11-29 10:43:48,888 - random-sample.log - WARNING - Error (non)
+2015-11-29 10:43:48,889 - random-sample.log - WARNING - local variable 'str_data' referenced before assignment
+2015-11-29 10:44:40,662 - random-sample.log - WARNING - Connecting with keys: 4
+2015-11-29 10:44:51,257 - random-sample.log - WARNING - stream SciutoAlex-statuses7815330282137506926 request Timedout.
+
+2015-11-29 10:44:51,257 - random-sample.log - WARNING - Connecting with keys: 4
+2015-11-29 10:44:52,678 - random-sample.log - WARNING - Error (non)
+2015-11-29 10:44:52,678 - random-sample.log - WARNING - local variable 'str_data' referenced before assignment
+2015-11-29 10:45:13,499 - random-sample.log - WARNING - Connecting with keys: 3
+2015-11-29 10:45:14,120 - random-sample.log - WARNING - Error (non)
+2015-11-29 10:45:14,121 - random-sample.log - WARNING - local variable 'str_data' referenced before assignment
+2015-11-29 10:45:14,121 - random-sample.log - WARNING - Connecting with keys: 0
+2015-11-29 10:45:55,255 - random-sample.log - WARNING - Connecting with keys: 4
+2015-11-29 10:45:56,793 - random-sample.log - WARNING - Error (non)
+2015-11-29 10:45:56,793 - random-sample.log - WARNING - 'datetime.timedelta' object has no attribute 'to_seconds'
+2015-11-29 10:45:56,793 - random-sample.log - WARNING - Connecting with keys: 2
+2015-11-29 10:45:57,271 - random-sample.log - WARNING - Error (non)
+2015-11-29 10:45:57,272 - random-sample.log - WARNING - 'created_at'
+2015-11-29 10:46:02,277 - random-sample.log - WARNING - Connecting with keys: 3
+2015-11-29 10:46:09,833 - random-sample.log - WARNING - Connecting with keys: 0
+2015-11-29 10:46:10,624 - random-sample.log - WARNING - Error (non)
+2015-11-29 10:46:10,624 - random-sample.log - WARNING - 'created_at'
+2015-11-29 10:46:10,624 - random-sample.log - WARNING - Connecting with keys: 1
+2015-11-29 10:46:11,081 - random-sample.log - WARNING - Error (non)
+2015-11-29 10:46:11,082 - random-sample.log - WARNING - 'created_at'
+2015-11-29 10:46:31,285 - random-sample.log - WARNING - Connecting with keys: 3
+2015-11-29 10:46:41,570 - random-sample.log - WARNING - <html>\n<head>\n<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>\n<title>Error 503 Server overloaded, try again in a few seconds.</title>
+</head>
+<body>
+<h2>HTTP ERROR: 503</h2>
+<p>Problem accessing '/1.1/statuses/sample.json?stall_warning=true'. Reason:
+<pre>    Server overloaded, try again in a few seconds.</pre>
+</body>
+</html>
+
+2015-11-29 10:46:41,571 - random-sample.log - WARNING - Connecting with keys: 4
+2015-11-29 10:46:42,109 - random-sample.log - WARNING - Error (non)
+2015-11-29 10:46:42,109 - random-sample.log - WARNING - 'created_at'
+2015-11-29 10:46:47,111 - random-sample.log - WARNING - Connecting with keys: 3
+2015-11-29 10:46:50,860 - random-sample.log - WARNING - Error (non)
+2015-11-29 10:46:50,860 - random-sample.log - WARNING - 'created_at'
+2015-11-29 10:46:55,863 - random-sample.log - WARNING - Connecting with keys: 1
+2015-11-29 10:46:57,361 - random-sample.log - WARNING - Error (non)
+2015-11-29 10:46:57,361 - random-sample.log - WARNING - 'created_at'
+2015-11-29 10:47:31,821 - random-sample.log - WARNING - Connecting with keys: 2
+2015-11-29 10:47:40,145 - random-sample.log - WARNING - Connecting with keys: 4
+2015-11-29 10:47:45,054 - random-sample.log - WARNING - Error (non)
+2015-11-29 10:47:45,055 - random-sample.log - WARNING - 'created_at'
+2015-11-29 10:47:45,055 - random-sample.log - WARNING - Connecting with keys: 1
+2015-11-29 10:48:28,012 - random-sample.log - WARNING - Connecting with keys: 3
+2015-11-29 10:48:31,005 - random-sample.log - WARNING - Error (non)
+2015-11-29 10:48:31,005 - random-sample.log - WARNING - 'created_at'
+2015-11-29 10:48:31,005 - random-sample.log - WARNING - Connecting with keys: 1
+2015-11-29 10:48:33,485 - random-sample.log - WARNING - Error (non)
+2015-11-29 10:48:33,486 - random-sample.log - WARNING - 'created_at'
+2015-11-29 10:49:08,000 - random-sample.log - WARNING - Connecting with keys: 4
+2015-11-29 10:49:09,467 - random-sample.log - WARNING - Error (non)
+2015-11-29 10:49:09,467 - random-sample.log - WARNING - local variable 'message' referenced before assignment
+2015-11-29 10:49:09,467 - random-sample.log - WARNING - Connecting with keys: 3
+2015-11-29 10:49:10,505 - random-sample.log - WARNING - Error (non)
+2015-11-29 10:49:10,505 - random-sample.log - WARNING - local variable 'message' referenced before assignment
+2015-11-29 10:49:15,510 - random-sample.log - WARNING - Connecting with keys: 2
+2015-11-29 10:49:16,308 - random-sample.log - WARNING - Error (non)
+2015-11-29 10:49:16,308 - random-sample.log - WARNING - local variable 'message' referenced before assignment
+2015-11-29 10:49:45,047 - random-sample.log - WARNING - Connecting with keys: 3
+2015-11-29 10:50:22,065 - random-sample.log - WARNING - Connecting with keys: 1
+2015-11-29 10:50:25,208 - random-sample.log - WARNING - Error (non)
+2015-11-29 10:50:25,209 - random-sample.log - WARNING - 'created_at'
+2015-11-29 10:50:25,209 - random-sample.log - WARNING - Connecting with keys: 1
+2015-11-29 10:51:08,386 - random-sample.log - WARNING - Connecting with keys: 0
+2015-11-29 10:51:11,779 - random-sample.log - WARNING - Error (non)
+2015-11-29 10:51:11,779 - random-sample.log - WARNING - 'created_at'
+2015-11-29 10:51:11,779 - random-sample.log - WARNING - Connecting with keys: 1
+2015-11-29 10:51:14,922 - random-sample.log - WARNING - Error (non)
+2015-11-29 10:51:14,922 - random-sample.log - WARNING - 'created_at'
+2015-11-29 10:51:44,440 - random-sample.log - WARNING - Connecting with keys: 4
+2015-11-29 10:52:56,192 - random-sample.log - WARNING - Connecting with keys: 1
+2015-11-29 10:55:05,859 - random-sample.log - WARNING - Connecting with keys: 1
+2015-11-29 10:55:16,758 - random-sample.log - WARNING - stream mynewwebpage-statuses7818083579109888903 request Timedout.
+
+2015-11-29 10:55:16,758 - random-sample.log - WARNING - Connecting with keys: 2
+2015-11-29 11:00:37,253 - random-sample.log - WARNING - Connecting with keys: 0
+2015-11-29 11:03:55,184 - random-sample.log - WARNING - Connecting with keys: 2
+2015-11-29 11:05:21,695 - random-sample.log - WARNING - Connecting with keys: 0
+2015-11-29 11:05:59,687 - random-sample.log - WARNING - Connecting with keys: 1
+2015-11-29 11:06:01,945 - random-sample.log - WARNING - hi
+2015-11-29 11:06:02,959 - random-sample.log - WARNING - hi
+2015-11-29 11:06:03,828 - random-sample.log - WARNING - hi
+2015-11-29 11:06:04,524 - random-sample.log - WARNING - hi
+2015-11-29 11:06:17,264 - random-sample.log - WARNING - Connecting with keys: 0
+2015-11-29 11:07:09,215 - random-sample.log - WARNING - Connecting with keys: 0
+2015-11-29 11:07:10,778 - random-sample.log - WARNING - Error (non)
+2015-11-29 11:07:10,778 - random-sample.log - WARNING - integer division or modulo by zero
+2015-11-29 11:07:10,778 - random-sample.log - WARNING - Connecting with keys: 3
+2015-11-29 11:07:11,814 - random-sample.log - WARNING - Error (non)
+2015-11-29 11:07:11,814 - random-sample.log - WARNING - integer division or modulo by zero
+2015-11-29 11:07:15,742 - random-sample.log - WARNING - Connecting with keys: 4
+2015-11-29 11:08:20,461 - random-sample.log - WARNING - Connecting with keys: 4
+2015-11-29 11:13:03,753 - random-sample.log - WARNING - Connecting with keys: 2
+2015-11-29 11:13:14,595 - random-sample.log - WARNING - stream SciutoAlex-statuses7822825043102587271 request Timedout.
+
+2015-11-29 11:13:14,595 - random-sample.log - WARNING - Connecting with keys: 2
+2015-11-29 12:32:19,178 - random-sample.log - WARNING - Connecting with keys: 0
+2015-11-29 12:33:10,127 - random-sample.log - WARNING - Connecting with keys: 2
+2015-11-29 14:43:24,257 - random-sample.log - WARNING - Connecting with keys: 3
+2015-11-29 14:56:37,095 - random-sample.log - WARNING - Connecting with keys: 0
+2015-11-29 14:56:41,358 - random-sample.log - WARNING - Error (non)
+2015-11-29 14:56:41,359 - random-sample.log - WARNING - 'NoneType' object has no attribute '__getitem__'
+2015-11-29 14:56:41,359 - random-sample.log - WARNING - Connecting with keys: 4
+2015-11-29 14:56:45,223 - random-sample.log - WARNING - Error (non)
+2015-11-29 14:56:45,224 - random-sample.log - WARNING - 'NoneType' object has no attribute '__getitem__'
+2015-11-29 14:57:53,591 - random-sample.log - WARNING - Connecting with keys: 1
+2015-11-29 14:58:05,784 - random-sample.log - WARNING - stream mynewwebpage-statuses7882158303141748360 request Timedout.
+
+2015-11-29 14:58:05,784 - random-sample.log - WARNING - Connecting with keys: 4
+2015-11-29 14:58:51,410 - random-sample.log - WARNING - Connecting with keys: 1
+2015-11-29 15:05:44,737 - random-sample.log - WARNING - Connecting with keys: 2
+2015-11-29 15:08:40,075 - random-sample.log - WARNING - Connecting with keys: 1
+2015-11-29 18:51:01,033 - random-sample.log - WARNING - Connecting with keys: 0
